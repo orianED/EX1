@@ -13,7 +13,7 @@ public class Main {
         List<Edge> edgeList = new ArrayList<>();
 
         readSCN(vertexList, edgeList);
-        Scene s = new Scene(vertexList, edgeList);
+        Scene scn = new Scene(vertexList, edgeList);
     }
 
     private static void readSCN(List<Vertex> vertexList, List<Edge> edgeList) {
