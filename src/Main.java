@@ -30,41 +30,7 @@ public class Main {
         myFrame.setVisible(true);
     }
 
-    private static void readSCN(List<Vertex> vertexList, List<Edge> edgeList) {
-        int numOfVertex, numOfEdges;
-        BufferedReader br = null;
-        FileReader fr = null;
 
-        try {
-            fr = new FileReader("example3d.scn");
-            br = new BufferedReader(fr);
-            //vertex
-            numOfVertex = Integer.parseInt(br.readLine().replace("\n", ""));
-            for (int i = 0; i < numOfVertex; i++) {
-                String sCurrentLine = br.readLine();
-                String[] parts = sCurrentLine.split(" ");
-                vertexList.add(new Vertex(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]), Double.parseDouble(parts[2])));
-            }
-            //edges
-            numOfEdges = Integer.parseInt(br.readLine().replace("\n", ""));
-            for (int i = 0; i < numOfEdges; i++) {
-                String sCurrentLine = br.readLine();
-                String[] parts = sCurrentLine.split(" ");
-                edgeList.add(new Edge(vertexList.get(Integer.parseInt(parts[0])), vertexList.get(Integer.parseInt(parts[1]))));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null)
-                    br.close();
-                if (fr != null)
-                    fr.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
 }
 
 
