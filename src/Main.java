@@ -1,5 +1,8 @@
 import javafx.util.Pair;
 
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,8 +15,19 @@ public class Main {
         List<Vertex> vertexList = new ArrayList<>();
         List<Edge> edgeList = new ArrayList<>();
 
-        readSCN(vertexList, edgeList);
-        Scene scn = new Scene(vertexList, edgeList);
+        Frame myFrame = new Frame("EX1");
+        MyCanvas myCanvas = new MyCanvas();
+        myFrame.add(myCanvas);
+
+        WindowAdapter myWindowAdapter = new WindowAdapter(){
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        };
+
+        myFrame.addWindowListener(myWindowAdapter);
+        myFrame.pack();
+        myFrame.setVisible(true);
     }
 
     private static void readSCN(List<Vertex> vertexList, List<Edge> edgeList) {
