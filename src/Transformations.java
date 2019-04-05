@@ -3,11 +3,14 @@
  */
 public class Transformations {
 
-    public void translate(Double Dx,Double Dy){}
-    public void scale (Double a,Double b){
+    public void translate(Double Dx, Double Dy) {
+    }
+
+    public void scale(Double a, Double b) {
 
     }
-    public void rotate(Double teta){
+
+    public void rotate(Double teta) {
 
     }
 }

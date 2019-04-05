@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,11 +12,15 @@ public class Scene {
     private List<Vertex> vertexList;
     private List<Edge> edgeList;
 
-    public Scene(List<Vertex> vertexList, List<Edge> EdgeList) {
-        this.vertexList = vertexList;
-        this.edgeList = EdgeList;
+    public Scene(){
+        this.vertexList=new ArrayList<>();
+        this.edgeList=new ArrayList<>();
     }
-    public void readSCN(String filePath) {
+
+
+    public void loadSCN(String filePath) {
+        this.vertexList.clear();
+        this.edgeList.clear();
         int numOfVertex, numOfEdges;
         BufferedReader br = null;
         FileReader fr = null;
@@ -49,4 +54,5 @@ public class Scene {
             }
         }
     }
+
 }

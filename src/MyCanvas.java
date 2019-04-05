@@ -1,23 +1,29 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.System.exit;
 
 public class MyCanvas extends Canvas implements KeyListener, MouseListener, MouseMotionListener {
+    private boolean clip;
+    private Scene scene;
 
     public MyCanvas() {
-        setSize(820, 820);
+        setSize(420, 420);
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
+        this.scene = new Scene();
+        this.clip = false;
     }
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
+        List<Vertex> newVL = new ArrayList<>();
+        newVL = t.mult(this.scene.getVL);
+
     }
 
     @Override
@@ -26,15 +32,20 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
 
         switch (key) {
             case 'c':
+                this.clip = true;
+                this.repaint();
                 break;
             case 'l':
                 JFileChooser chooser = new JFileChooser();
                 chooser.showOpenDialog(null);
                 String path = chooser.getSelectedFile().getAbsolutePath();
                 String extension = path.substring(path.lastIndexOf('.') + 1);
-                if (extension.equals("scn")){
-                    Scene scene=new Scene()
-            }
+                if (extension.equals("scn")) {
+                    this.scene.loadSCN(path);
+                } else if (extension.equals("viw")) {
+                    //TODO
+                }
+
                 break;
             case 'r':
                 break;
