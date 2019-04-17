@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import static java.lang.System.exit;
 public class MyCanvas extends Canvas implements KeyListener, MouseListener, MouseMotionListener {
     private boolean clip;
     private Scene scene;
+    private View view;
 
     public MyCanvas() {
         setSize(420, 420);
@@ -16,14 +18,16 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         addMouseListener(this);
         addMouseMotionListener(this);
         this.scene = new Scene();
+        this.view = new View();
         this.clip = false;
     }
 
     @Override
     public void paint(Graphics g) {
         List<Vertex> newVL = new ArrayList<>();
-        newVL = t.mult(this.scene.getVL);
-
+        for (Edge e : this.scene.getEdgeList()) {
+            g.drawLine((int) e.getV1().getX() * 40, (int) e.getV1().getY() * 40, (int) e.getV2().getX() * 40, (int) e.getV2().getY() * 40);
+        }
     }
 
     @Override
@@ -33,19 +37,22 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         switch (key) {
             case 'c':
                 this.clip = true;
-                this.repaint();
                 break;
             case 'l':
                 JFileChooser chooser = new JFileChooser();
+                File workingDirectory = new File(System.getProperty("user.dir"));
+                chooser.setCurrentDirectory(workingDirectory);
                 chooser.showOpenDialog(null);
+
                 String path = chooser.getSelectedFile().getAbsolutePath();
                 String extension = path.substring(path.lastIndexOf('.') + 1);
                 if (extension.equals("scn")) {
                     this.scene.loadSCN(path);
                 } else if (extension.equals("viw")) {
-                    //TODO
+                    this.view.loadView(path);
+                    Matrix MV1 = view.getMV1();
+                    setSize(this.view.getVw() + 40, this.view.getVh() + 40);
                 }
-
                 break;
             case 'r':
                 break;
@@ -61,6 +68,7 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
             default:
                 break;
         }
+        repaint();
     }
 
     @Override

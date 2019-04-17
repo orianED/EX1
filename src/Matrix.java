@@ -5,9 +5,9 @@ import java.util.ArrayList;
  */
 public class Matrix {
 
-    private ArrayList[][] m;
+    private double[][] m;
 
-    public Matrix(ArrayList[][] m) {
+    public Matrix(double[][] m) {
         this.m = m;
     }
 
@@ -20,39 +20,27 @@ public class Matrix {
         return this.m.length;
     }
 
+    public void reset() {
+        this.m = new double[][]{
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        };
+    }
+
     public Matrix mult(Matrix other) {
-        ArrayList[][] result = new ArrayList[this.getColNum()][other.getRowNum()];
-        ArrayList[][] tmp = new ArrayList[this.getColNum()][other.getRowNum()];
-
-        // Initialize newArray to be equal to array
-        for (int i = 0; i < other.length;
-        i++){
-            for (int j = 0; j < array.length; j++) {
-                newArray[i][j] = array[i][j];
-            }
-        }
-
-        // Outer loop that multiplies as many times as you want
+        double[][] res = new double[this.getColNum()][other.getRowNum()];
 
         for (int i = 0; i < this.getRowNum(); i++) {
             for (int j = 0; j < other.getColNum(); j++) {
                 int sum = 0;
                 for (int x = 0; x < this.getColNum(); x++) {
-                    sum += this.m[i][x] * other.m[x][j];  // Use newArray here
+                    sum += this.m[i][x] * other.m[x][j];
                 }
+                res[i][j] = sum;
             }
-            tmp[i][j] = sum;
         }
+        return new Matrix(res);
     }
-
-    // Copy the result from multiplication to newArray and restart tmp
-            System.arraycopy(tmp,0,newArray,0,tmp.length);
-    tmp =new int[array.length][array.length];
 }
-
-        return newArray;
-                }
-
-
-                }
-                }

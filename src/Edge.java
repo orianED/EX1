@@ -5,4 +5,12 @@ public class Edge {
         this.v1 = v1;
         this.v2 = v2;
     }
+
+    public Vertex getV1() {
+        return v1;
+    }
+
+    public Vertex getV2() {
+        return v2;
+    }
 }

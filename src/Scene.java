@@ -17,6 +17,13 @@ public class Scene {
         this.edgeList=new ArrayList<>();
     }
 
+    public List<Vertex> getVertexList() {
+        return vertexList;
+    }
+
+    public List<Edge> getEdgeList() {
+        return edgeList;
+    }
 
     public void loadSCN(String filePath) {
         this.vertexList.clear();
