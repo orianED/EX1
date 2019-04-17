@@ -50,8 +50,8 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
                     this.scene.loadSCN(path);
                 } else if (extension.equals("viw")) {
                     this.view.loadView(path);
-                    Matrix MV1 = view.getMV1();
                     setSize(this.view.getVw() + 40, this.view.getVh() + 40);
+                    Matrix MV1 = view.getMV1();
                 }
                 break;
             case 'r':
@@ -90,6 +90,8 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
     public void mouseReleased(MouseEvent e) {
 
     }
+
+
 
     @Override
     public void mouseEntered(MouseEvent e) {

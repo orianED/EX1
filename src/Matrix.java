@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hadar on 02/04/2019.
@@ -42,5 +43,24 @@ public class Matrix {
             }
         }
         return new Matrix(res);
+    }
+
+    public Vertex mult(Vertex v) {
+        //padding the vector with 1 to make it 4*1
+        double x = m[0][0] * v.getX() + m[0][1] * v.getY() + m[0][2] * v.getZ() + m[0][3] * 1;
+        double y = m[1][0] * v.getX() + m[1][1] * v.getY() + m[1][2] * v.getZ() + m[1][3] * 1;
+        double z = m[2][0] * v.getX() + m[2][1] * v.getY() + m[2][2] * v.getZ() + m[2][3] * 1;
+
+        return new Vertex(x, y, z);
+    }
+
+    public List<Vertex> mult(List<Vertex> vl) {
+        List<Vertex> new_vl = new ArrayList<>(vl.size());
+
+        for (Vertex v : vl) {
+            new_vl.add(this.mult(v));
+        }
+
+        return new_vl;
     }
 }

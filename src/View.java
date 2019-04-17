@@ -1,18 +1,18 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class View {
     private Vertex position, lookAt, up;
     private double l, r, b, t;
     private int vw, vh;
+    private Matrix t1, t2;
 
     public void loadView(String filePath) {
         BufferedReader br = null;
         FileReader fr = null;
         String line;
+
         try {
             br = new BufferedReader(new FileReader(filePath));
             //position:
@@ -65,9 +65,9 @@ public class View {
 
     public Matrix getMV1() {
         Vertex zv = new Vertex(position.getX() - lookAt.getX(), position.getY() - lookAt.getY(), position.getZ() - lookAt.getZ());
-        zv = zv.mult(1/zv.norm());
+        zv = zv.mult(1 / zv.norm());
         Vertex xv = up.crossProduct(zv);
-        xv = xv.mult(1/xv.norm());
+        xv = xv.mult(1 / xv.norm());
         Vertex yv = zv.crossProduct(xv);
 
         double[][] mr = new double[][]{
@@ -88,33 +88,26 @@ public class View {
         return r.mult(t);
     }
 
-    public Vertex getPosition() {
-        return position;
+    public Matrix getT1() {
+        double wcx = l + (r - l) / 2;
+        double wcy = b + (t - b) / 2;
+        double[][] mt1 = new double[][]{
+                {1, 0, 0, -wcx},
+                {0, 1, 0, -wcy},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        };
+        return new Matrix(mt1);
     }
 
-    public Vertex getLookAt() {
-        return lookAt;
-    }
-
-    public Vertex getUp() {
-        return up;
-    }
-
-    public double getL() {
-        return l;
-    }
-
-    public double getR() {
-        return r;
-    }
-
-
-    public double getB() {
-        return b;
-    }
-
-    public double getT() {
-        return t;
+    public Matrix getT2() {
+        double[][] mt2 = new double[][]{
+                {1, 0, 0, 20 + vw / 2},
+                {0, 1, 0, 20 + vh / 2},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        };
+        return new Matrix(mt2);
     }
 
     public int getVw() {
