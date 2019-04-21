@@ -1,12 +1,13 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 public class View {
     private Vertex position, lookAt, up;
     private double l, r, b, t;
     private int vw, vh;
-    private Matrix t1, t2;
+    private final Matrix P = new Matrix(new double[][]{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 1}});
 
     public void loadView(String filePath) {
         BufferedReader br = null;
@@ -108,6 +109,22 @@ public class View {
                 {0, 0, 0, 1}
         };
         return new Matrix(mt2);
+    }
+
+    public Matrix getMV2() {
+        double[][] ms = {
+                {vw / (r - l), 0, 0, 0},
+                {0, -vh / (t - b), 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        };
+        Matrix s = new Matrix(ms);
+
+        return getT2().mult(s).mult(getT1());
+    }
+
+    public Matrix getP() {
+        return P;
     }
 
     public int getVw() {

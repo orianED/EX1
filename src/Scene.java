@@ -12,9 +12,9 @@ public class Scene {
     private List<Vertex> vertexList;
     private List<Edge> edgeList;
 
-    public Scene(){
-        this.vertexList=new ArrayList<>();
-        this.edgeList=new ArrayList<>();
+    public Scene() {
+        this.vertexList = new ArrayList<>();
+        this.edgeList = new ArrayList<>();
     }
 
     public List<Vertex> getVertexList() {
@@ -46,7 +46,7 @@ public class Scene {
             for (int i = 0; i < numOfEdges; i++) {
                 String sCurrentLine = br.readLine();
                 String[] parts = sCurrentLine.split(" ");
-                this.edgeList.add(new Edge(this.vertexList.get(Integer.parseInt(parts[0])), this.vertexList.get(Integer.parseInt(parts[1]))));
+                this.edgeList.add(new Edge(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
             }
         } catch (IOException e) {
             e.printStackTrace();

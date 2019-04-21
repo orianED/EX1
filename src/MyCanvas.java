@@ -11,22 +11,38 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
     private boolean clip;
     private Scene scene;
     private View view;
+    private Matrix CT, AT;
+    private char currTransformation;
 
     public MyCanvas() {
-        setSize(420, 420);
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
         this.scene = new Scene();
         this.view = new View();
         this.clip = false;
+
+        scene.loadSCN("example3d.scn");
+        view.loadView("example3d.viw");
+        setSize(view.getVw() + 40, view.getVh() + 40);
+
+        // initialize CT and AT to identifier matrix
+        CT = new Matrix(null);
+        CT.reset();
+        AT = new Matrix(null);
+        AT.reset();
     }
 
     @Override
     public void paint(Graphics g) {
-        List<Vertex> newVL = new ArrayList<>();
+        //draw bounds
+        g.drawRect(20, 20, view.getVw(), view.getVw());
+
+        Matrix TT = view.getMV2().mult(view.getP()).mult(CT).mult(AT).mult(view.getMV1());
+        List<Vertex> newVL = TT.mult(scene.getVertexList());
         for (Edge e : this.scene.getEdgeList()) {
-            g.drawLine((int) e.getV1().getX() * 40, (int) e.getV1().getY() * 40, (int) e.getV2().getX() * 40, (int) e.getV2().getY() * 40);
+            g.drawLine((int) newVL.get(e.getV1()).getX(), (int) newVL.get(e.getV1()).getY(),
+                    (int) newVL.get(e.getV2()).getX(), (int) newVL.get(e.getV2()).getY());
         }
     }
 
@@ -51,7 +67,6 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
                 } else if (extension.equals("viw")) {
                     this.view.loadView(path);
                     setSize(this.view.getVw() + 40, this.view.getVh() + 40);
-                    Matrix MV1 = view.getMV1();
                 }
                 break;
             case 'r':
@@ -77,13 +92,10 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
     public void mousePressed(MouseEvent e) {
-
+        double x = e.getX();
+        double y = e.getY();
+        transformationByLocation(x, y);
     }
 
     @Override
@@ -91,7 +103,28 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
 
     }
 
+    private void transformationByLocation(double x, double y) {
+        double vw = view.getVw();
+        double vh = view.getVh();
 
+        System.out.println(x + "," + y);
+        if (x < 20 || x > vw + 20 || y < 20 || y > vh + 20) {
+            currTransformation = 'N';
+        } else if (x >= vw / 3 + 20 && x < 2 * vw / 3 + 20 && y > vh / 3 + 20 && y < 2 * vh / 3 + 20) {
+            currTransformation = 'T';
+        } else if ((x > 20 && x < vw / 3 + 20 || x > 2 * vw / 3 + 20 && x < vw + 20) &&
+                (y > 20 && y < vh / 3 + 20 || y > 2 * vh / 3 + 20 && y < vh + 20)) {
+            currTransformation = 'R';
+        } else {
+            currTransformation = 'S';
+        }
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
 
     @Override
     public void mouseEntered(MouseEvent e) {
