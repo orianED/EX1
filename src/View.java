@@ -40,6 +40,7 @@ public class View {
             splitted = line.split(" ");
             this.vw = Integer.parseInt(splitted[1]);
             this.vh = Integer.parseInt(splitted[2]);
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -70,23 +71,21 @@ public class View {
         Vertex xv = up.crossProduct(zv);
         xv = xv.mult(1 / xv.norm());
         Vertex yv = zv.crossProduct(xv);
-
         double[][] mr = new double[][]{
                 {xv.getX(), xv.getY(), xv.getZ(), 0},
                 {yv.getX(), yv.getY(), yv.getZ(), 0},
                 {zv.getX(), zv.getY(), zv.getZ(), 0},
                 {0, 0, 0, 1}
         };
-        Matrix r = new Matrix(mr);
+        Matrix R = new Matrix(mr);
         double[][] mt = new double[][]{
                 {1, 0, 0, -position.getX()},
                 {0, 1, 0, -position.getY()},
                 {0, 0, 1, -position.getZ()},
                 {0, 0, 0, 1}
         };
-        Matrix t = new Matrix(mt);
-
-        return r.mult(t);
+        Matrix T = new Matrix(mt);
+        return R.mult(T);
     }
 
     public Matrix getT1() {
@@ -118,13 +117,23 @@ public class View {
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
         };
-        Matrix s = new Matrix(ms);
-
-        return getT2().mult(s).mult(getT1());
+        Matrix S = new Matrix(ms);
+        return getT2().mult(S).mult(getT1());
     }
 
     public Matrix getP() {
         return P;
+    }
+
+    public Matrix getTl() {
+        Vertex Vd = new Vertex(lookAt.getX() - position.getX(), lookAt.getY() - position.getY(), lookAt.getZ() - position.getZ());
+        double[][] mtl = {
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, Vd.norm()},
+                {0, 0, 0, 1}
+        };
+        return new Matrix(mtl);
     }
 
     public int getVw() {
@@ -133,5 +142,21 @@ public class View {
 
     public int getVh() {
         return vh;
+    }
+
+    public double getWw() {
+        return r - l;
+    }
+
+    public double getWh() {
+        return t - b;
+    }
+
+    public void setVw(int vw) {
+        this.vw = vw;
+    }
+
+    public void setVh(int vh) {
+        this.vh = vh;
     }
 }
