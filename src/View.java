@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
 
 public class View {
     private Vertex position, lookAt, up;
@@ -89,8 +88,8 @@ public class View {
     }
 
     public Matrix getT1() {
-        double wcx = l + (r - l) / 2;
-        double wcy = b + (t - b) / 2;
+        double wcx = l + ((r - l) / 2);
+        double wcy = b + ((t - b) / 2);
         double[][] mt1 = new double[][]{
                 {1, 0, 0, -wcx},
                 {0, 1, 0, -wcy},
@@ -131,6 +130,17 @@ public class View {
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, Vd.norm()},
+                {0, 0, 0, 1}
+        };
+        return new Matrix(mtl);
+    }
+
+    public Matrix getTl2() {
+        Vertex Vd = new Vertex(lookAt.getX() - position.getX(), lookAt.getY() - position.getY(), lookAt.getZ() - position.getZ());
+        double[][] mtl = {
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, -Vd.norm()},
                 {0, 0, 0, 1}
         };
         return new Matrix(mtl);

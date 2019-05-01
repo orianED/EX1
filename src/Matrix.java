@@ -5,7 +5,6 @@ import java.util.List;
  * Created by hadar on 02/04/2019.
  */
 public class Matrix {
-
     private double[][] m;
 
     public Matrix(double[][] m) {
@@ -35,7 +34,7 @@ public class Matrix {
 
         for (int i = 0; i < this.getRowNum(); i++) {
             for (int j = 0; j < other.getColNum(); j++) {
-                int sum = 0;
+                double sum = 0;
                 for (int x = 0; x < this.getColNum(); x++) {
                     sum += this.m[i][x] * other.m[x][j];
                 }

@@ -16,8 +16,11 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
     private char currTransformation, axis;
     private double Sx, Sy;
     private double Cx, Cy;
+    private Clip cliping;
+    private IFunc myFunc;
 
-    public MyCanvas() {
+    public MyCanvas(IFunc myFunc) {
+        this.myFunc = myFunc;
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -25,16 +28,17 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         this.view = new View();
         this.clip = false;
         axis = 'X';
-
+        //load default scene and view:
         scene.loadSCN("example3d.scn");
         vertexList = scene.getVertexList();
         view.loadView("example3d.viw");
         setSize(view.getVw() + 40, view.getVh() + 40);
         Cx = 20 + view.getVw() / 2;
         Cy = 20 + view.getVh() / 2;
+        cliping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
 
         transformations = new Transformations();
-        // initialize CT and AT to identifier matrix
+        // initialize CT and AT to id matrix
         CT = new Matrix(null);
         CT.reset();
         AT = new Matrix(null);
@@ -43,12 +47,13 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                Component vp = e.getComponent();
-                view.setVw(vp.getWidth() - 40);
-                view.setVh(vp.getHeight() - 40);
+                Component viewPort = e.getComponent();
+                view.setVw(viewPort.getWidth() - 40);
+                view.setVh(viewPort.getHeight() - 40);
                 Cx = 20 + view.getVw() / 2;
                 Cy = 20 + view.getVh() / 2;
                 setSize(e.getComponent().getWidth(), e.getComponent().getHeight());
+                cliping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
             }
         });
     }
@@ -61,8 +66,16 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         Matrix TT = view.getMV2().mult(view.getP()).mult(CT).mult(AT).mult(view.getMV1());
         List<Vertex> newVL = TT.mult(vertexList);
         for (Edge e : this.scene.getEdgeList()) {
-            g.drawLine((int) newVL.get(e.getV1()).getX(), (int) newVL.get(e.getV1()).getY(),
-                    (int) newVL.get(e.getV2()).getX(), (int) newVL.get(e.getV2()).getY());
+            if (clip) {
+                List<Vertex> newLine = cliping.CSClip(newVL.get(e.getV1()), newVL.get(e.getV2()));
+                if (newLine != null) {
+                    g.drawLine((int) newLine.get(0).getX(), (int) newLine.get(0).getY(),
+                            (int) newLine.get(1).getX(), (int) newLine.get(1).getY());
+                }
+            } else {
+                g.drawLine((int) newVL.get(e.getV1()).getX(), (int) newVL.get(e.getV1()).getY(),
+                        (int) newVL.get(e.getV2()).getX(), (int) newVL.get(e.getV2()).getY());
+            }
         }
     }
 
@@ -86,11 +99,15 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
                 if (extension.equals("scn")) {
                     this.scene.loadSCN(path);
                     vertexList = scene.getVertexList();
+                    AT.reset();
+                    CT.reset();
                 } else if (extension.equals("viw")) {
                     this.view.loadView(path);
                     setSize(view.getVw() + 40, view.getVh() + 40);
+                    myFunc.resize();
                     Cx = 20 + view.getVw() / 2;
                     Cy = 20 + view.getVh() / 2;
+                    cliping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
                 }
                 break;
             case 'r':
@@ -111,6 +128,7 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
             default:
                 break;
         }
+
         repaint();
     }
 
@@ -128,13 +146,13 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
                 break;
             case 'S':
                 double s = Vd.norm() / Vs.norm();
-                CT = view.getT2().mult(transformations.scale(s)).mult(view.getTl());
+                CT = transformations.scale(s);
                 break;
             case 'R':
                 double tetaS = Math.atan2(Vs.getY(), Vs.getX());
                 double tetaD = Math.atan2(Vd.getY(), Vd.getX());
                 double teta = tetaD - tetaS;
-                CT = view.getT2().mult(transformations.rotate(axis, Math.toRadians(teta))).mult(view.getTl());
+                CT = view.getTl2().mult(transformations.rotate(axis, teta)).mult(view.getTl());
                 break;
             default:
                 break;

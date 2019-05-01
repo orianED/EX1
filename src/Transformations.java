@@ -31,26 +31,26 @@ public class Transformations {
         switch (axis) {
             case 'X':
                 m = new double[][]{
-                        {cosT, -sinT, 0, 0},
-                        {sinT, cosT, 0, 0},
-                        {0, 0, 1, 0},
-                        {0, 0, 0, 1}
-                };
-                break;
-            case 'Y':
-                m = new double[][]{
                         {1, 0, 0, 0},
                         {0, cosT, -sinT, 0},
                         {0, sinT, cosT, 0},
                         {0, 0, 0, 1}
                 };
                 break;
+            case 'Y':
+                m = new double[][]{
+                        {cosT, 0, -sinT, 0},
+                        {0, 1, 0, 0},
+                        {sinT, 0, cosT, 0},
+                        {0, 0, 0, 1}
+                };
+                break;
             case 'Z':
                 m = new double[][]{
-                        {1, 0, 0, 0},
-                        {0, 1, 0, 0},
-                        {0, 0, cosT, -sinT},
-                        {0, 0, sinT, cosT}
+                        {cosT, -sinT, 0, 0},
+                        {sinT, cosT, 0, 0},
+                        {0, 0, 1, 0},
+                        {0, 0, 0, 1}
                 };
                 break;
             default:
