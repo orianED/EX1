@@ -16,7 +16,7 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
     private char currTransformation, axis;
     private double Sx, Sy;
     private double Cx, Cy;
-    private Clip cliping;
+    private Clip clipping;
     private IFunc myFunc;
 
     public MyCanvas(IFunc myFunc) {
@@ -27,7 +27,7 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         this.scene = new Scene();
         this.view = new View();
         this.clip = false;
-        axis = 'X';
+        axis = 'Z';
         //load default scene and view:
         scene.loadSCN("example3d.scn");
         vertexList = scene.getVertexList();
@@ -35,7 +35,7 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         setSize(view.getVw() + 40, view.getVh() + 40);
         Cx = 20 + view.getVw() / 2;
         Cy = 20 + view.getVh() / 2;
-        cliping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
+        clipping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
 
         transformations = new Transformations();
         // initialize CT and AT to id matrix
@@ -53,7 +53,7 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
                 Cx = 20 + view.getVw() / 2;
                 Cy = 20 + view.getVh() / 2;
                 setSize(e.getComponent().getWidth(), e.getComponent().getHeight());
-                cliping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
+                clipping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
             }
         });
     }
@@ -67,7 +67,7 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         List<Vertex> newVL = TT.mult(vertexList);
         for (Edge e : this.scene.getEdgeList()) {
             if (clip) {
-                List<Vertex> newLine = cliping.CSClip(newVL.get(e.getV1()), newVL.get(e.getV2()));
+                List<Vertex> newLine = clipping.CSClip(newVL.get(e.getV1()), newVL.get(e.getV2()));
                 if (newLine != null) {
                     g.drawLine((int) newLine.get(0).getX(), (int) newLine.get(0).getY(),
                             (int) newLine.get(1).getX(), (int) newLine.get(1).getY());
@@ -107,7 +107,7 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
                     myFunc.resize();
                     Cx = 20 + view.getVw() / 2;
                     Cy = 20 + view.getVh() / 2;
-                    cliping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
+                    clipping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
                 }
                 break;
             case 'r':
