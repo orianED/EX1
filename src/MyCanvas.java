@@ -18,6 +18,8 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
     private double Cx, Cy;
     private Clip clipping;
     private IFunc myFunc;
+    private int initVH;
+    private int initVW;
 
     public MyCanvas(IFunc myFunc) {
         this.myFunc = myFunc;
@@ -103,6 +105,8 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
                     CT.reset();
                 } else if (extension.equals("viw")) {
                     this.view.loadView(path);
+                    this.initVH=this.view.getVh();
+                    this.initVW=this.view.getVw();
                     setSize(view.getVw() + 40, view.getVh() + 40);
                     myFunc.resize();
                     Cx = 20 + view.getVw() / 2;
@@ -112,6 +116,13 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
                 break;
             case 'r':
                 AT.reset();
+                view.setVh(initVH);
+                view.setVw(initVW);
+                setSize(view.getVw() + 40, view.getVh() + 40);
+                myFunc.resize();
+                Cx = 20 + view.getVw() / 2;
+                Cy = 20 + view.getVh() / 2;
+                clipping = new Clip(20, 20, view.getVw() + 20, view.getVh() + 20);
                 break;
             case 'x':
                 axis = 'X';
