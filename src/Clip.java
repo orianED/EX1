@@ -1,3 +1,8 @@
+/**
+ * Name: Orian Edri ID: 308335454
+ * Name: Hadar Sabag ID: 312497126
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +36,12 @@ public class Clip {
         return code;
     }
 
+    /**
+     * clip algorithm cohen-st implementation
+     * @param v1 line vertex
+     * @param v2 line vertex
+     * @return new vertex of clipped line
+     */
     public List<Vertex> CSClip(Vertex v1, Vertex v2) {
         int code1 = computeCode(v1);
         int code2 = computeCode(v2);

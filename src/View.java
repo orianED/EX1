@@ -1,3 +1,8 @@
+/**
+ * Name: Orian Edri ID: 308335454
+ * Name: Hadar Sabag ID: 312497126
+ */
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -62,9 +67,9 @@ public class View {
     }
 
     /**
-     *
-     * @param coordinates
-     * @return
+     *create a vertex object according to given coordinates
+     * @param coordinates array of coordinates
+     * @return vertex
      */
     private Vertex createVertex(String[] coordinates) {
         double x = Double.parseDouble(coordinates[1]);
@@ -74,6 +79,10 @@ public class View {
         return new Vertex(x, y, z);
     }
 
+    /**
+     *create MV1 matrix
+     * @return mv1
+     */
     public Matrix getMV1() {
         Vertex zv = new Vertex(position.getX() - lookAt.getX(), position.getY() - lookAt.getY(), position.getZ() - lookAt.getZ());
         zv = zv.mult(1 / zv.norm());
@@ -97,6 +106,10 @@ public class View {
         return R.mult(T);
     }
 
+    /**
+     *create tl matrix
+     * @return tl
+     */
     public Matrix getT1() {
         double wcx = l + ((r - l) / 2);
         double wcy = b + ((t - b) / 2);
@@ -109,6 +122,10 @@ public class View {
         return new Matrix(mt1);
     }
 
+    /**
+     *create t2 matrix
+     * @return t2
+     */
     public Matrix getT2() {
         double[][] mt2 = new double[][]{
                 {1, 0, 0, 20 + vw / 2},
@@ -119,6 +136,10 @@ public class View {
         return new Matrix(mt2);
     }
 
+    /**
+     *create mv2 matrix
+     * @return
+     */
     public Matrix getMV2() {
         double[][] ms = {
                 {vw / (r - l), 0, 0, 0},
@@ -134,6 +155,10 @@ public class View {
         return P;
     }
 
+    /**
+     *create tl matrix
+     * @return tl
+     */
     public Matrix getTl() {
         Vertex Vd = new Vertex(lookAt.getX() - position.getX(), lookAt.getY() - position.getY(), lookAt.getZ() - position.getZ());
         double[][] mtl = {
@@ -145,6 +170,10 @@ public class View {
         return new Matrix(mtl);
     }
 
+    /**
+     * create tl2 matrix
+     * @return tl2
+     */
     public Matrix getTl2() {
         Vertex Vd = new Vertex(lookAt.getX() - position.getX(), lookAt.getY() - position.getY(), lookAt.getZ() - position.getZ());
         double[][] mtl = {

@@ -1,3 +1,8 @@
+/**
+ * Name: Orian Edri ID: 308335454
+ * Name: Hadar Sabag ID: 312497126
+ */
+
 public class Edge {
     private int v1, v2;
 

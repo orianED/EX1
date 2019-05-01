@@ -1,3 +1,8 @@
+/**
+ * Name: Orian Edri ID: 308335454
+ * Name: Hadar Sabag ID: 312497126
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +25,9 @@ public class Matrix {
         return this.m.length;
     }
 
+    /**
+     * set matrix to I
+     */
     public void reset() {
         this.m = new double[][]{
                 {1, 0, 0, 0},
@@ -29,6 +37,11 @@ public class Matrix {
         };
     }
 
+    /**
+     * multiply 2 matrix
+     * @param other matrix
+     * @return result matrix
+     */
     public Matrix mult(Matrix other) {
         double[][] res = new double[this.getColNum()][other.getRowNum()];
 
@@ -44,6 +57,11 @@ public class Matrix {
         return new Matrix(res);
     }
 
+    /**
+     * multiply matrix and vertex
+     * @param v vertex
+     * @return result vertex
+     */
     public Vertex mult(Vertex v) {
         //padding the vector with 1 to make it 4*1
         double x = m[0][0] * v.getX() + m[0][1] * v.getY() + m[0][2] * v.getZ() + m[0][3] * 1;
@@ -53,6 +71,11 @@ public class Matrix {
         return new Vertex(x, y, z);
     }
 
+    /**
+     * multiply list of vertex
+     * @param vl vertexes to multiply
+     * @return list of results
+     */
     public List<Vertex> mult(List<Vertex> vl) {
         List<Vertex> new_vl = new ArrayList<>(vl.size());
 

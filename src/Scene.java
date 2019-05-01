@@ -1,3 +1,8 @@
+/**
+ * Name: Orian Edri ID: 308335454
+ * Name: Hadar Sabag ID: 312497126
+ */
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,6 +30,11 @@ public class Scene {
         return edgeList;
     }
 
+    /**
+     * load and read the scn file from given path
+     *  and update the parameters
+     * @param filePath path to file
+     */
     public void loadSCN(String filePath) {
         this.vertexList.clear();
         this.edgeList.clear();

@@ -1,3 +1,8 @@
+/**
+ * Name: Orian Edri ID: 308335454
+ * Name: Hadar Sabag ID: 312497126
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -34,6 +39,8 @@ public class MyCanvas extends Canvas implements KeyListener, MouseListener, Mous
         scene.loadSCN("example3d.scn");
         vertexList = scene.getVertexList();
         view.loadView("example3d.viw");
+        this.initVH=this.view.getVh();
+        this.initVW=this.view.getVw();
         setSize(view.getVw() + 40, view.getVh() + 40);
         Cx = 20 + view.getVw() / 2;
         Cy = 20 + view.getVh() / 2;
