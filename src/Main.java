@@ -15,9 +15,6 @@ interface IFunc{
 public class Main {
 
     public static void main(String[] args) {
-        List<Vertex> vertexList = new ArrayList<>();
-        List<Edge> edgeList = new ArrayList<>();
-
         Frame myFrame = new Frame("EX1");
         MyCanvas myCanvas = new MyCanvas(myFrame::pack);
         myFrame.add(myCanvas);
