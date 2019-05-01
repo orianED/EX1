@@ -8,6 +8,11 @@ public class View {
     private int vw, vh;
     private final Matrix P = new Matrix(new double[][]{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 1}});
 
+    /**
+     *  load and read the view file from given path
+     *  and update the parameters
+     * @param filePath path
+     */
     public void loadView(String filePath) {
         BufferedReader br = null;
         FileReader fr = null;
@@ -56,6 +61,11 @@ public class View {
         }
     }
 
+    /**
+     *
+     * @param coordinates
+     * @return
+     */
     private Vertex createVertex(String[] coordinates) {
         double x = Double.parseDouble(coordinates[1]);
         double y = Double.parseDouble(coordinates[2]);
